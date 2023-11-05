@@ -1,6 +1,6 @@
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from rest_framework import routers
 from app import views
@@ -25,9 +25,12 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
-    path('auth/', include('rest_framework.urls')),
+   #  path('auth/', include('rest_framework.urls')),
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
+
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
 
     path(r'tags/', views.get_tags_list, name="tag list"),
     path(r'tags/<int:pk>', views.get_tags_by_id, name="tag by id"),

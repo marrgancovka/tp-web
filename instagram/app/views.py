@@ -18,6 +18,7 @@ def get_tags_list(request, format=None):
     
     tags = Tags.objects.filter(title__contains=search)
     serialiser = TagsSerializer(tags, many=True)
+    permission_classes = (IsAuthenticated)
     return Response(serialiser.data)
 
 @api_view(['POST'])
