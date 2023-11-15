@@ -141,7 +141,7 @@ def  new_moment(request, format=None):
 
 @api_view(['GET'])
 def get_moment_by_id(request, pk, format=None):
-    moment = get_object_or_404(Moments, id=pk)
+    moment = get_object_or_404(Moments, author_id=pk)
     """if serializer.is_valid():
     Возвращает информацию о моменте
     """
