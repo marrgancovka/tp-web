@@ -1,16 +1,15 @@
 import React from "react";
 import Navbar from "../../Components/Navbar/Navbar";
-import SearchUser from "../../Components/SearchUser/SearchUser";
+import NewMoment from "../../Components/NewMoment/NewMoment";
 
-function PageSearch(){
+function PageNewMoment(){
     return(
         <>
         <Navbar/>
-        <SearchUser/>
-        
+        <NewMoment/>
         </>
         
     )
 }
 
-export default PageSearch
+export default PageNewMoment

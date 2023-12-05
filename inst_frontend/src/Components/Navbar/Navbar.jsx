@@ -26,8 +26,8 @@ const Navbar = () => {
     }
     const toProfile = ()=>{
         location.state.profile = location.state.me
-        setKey(key+1)
-        navigate(`/profile/${location.state.profile}`, {state: location.state})
+        // setKey(key+1)
+        navigate(`/profile/`, {state: location.state})
     }
     const toNewMoment = ()=>{
         navigate('/new_moment', {state: location.state})
@@ -48,8 +48,8 @@ const Navbar = () => {
                     <img src={profile} alt="" className='icons'/>
                 </Link> */}
             </div>
-            <h3>{location.state.me}</h3>
-            <h3>{location.state?.profile}</h3>
+            {/* <h3>{location.state.me}</h3>
+            <h3>{location.state?.profile}</h3> */}
         </div>
     )
 }

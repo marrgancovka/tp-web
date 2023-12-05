@@ -40,3 +40,21 @@
 .count{
     font-size: 30px;
 }
+.btn_sub{
+    background-color: rgb(87, 87, 243);
+    border: solid 1px rgb(206, 206, 206);
+    border-radius: 14px;
+    padding: 1% 2%;
+    font-size: 18px;
+} 
+.notSub{
+    background-color: white;
+}
+
+.btn_sub:active{
+    background-color: rgb(78, 78, 212);
+}
+
+.notSub:active{
+    background-color: rgb(235, 235, 235);
+}

@@ -8,7 +8,8 @@ import PageFeed from './Pages/Feed/Feed';
 import PageProfile from './Pages/Profile/Profile';
 import PageAction from './Pages/Action/Action';
 import PageSearch from './Pages/Search/Search';
-import { createBrowserRouter, RouterProvider, createHashRouter } from 'react-router-dom'
+import PageMyProfile from './Pages/Profile/MyProfile';
+import { createBrowserRouter, RouterProvider, createHashRouter, Router } from 'react-router-dom'
 import PageNewMoment from './Pages/NewMoment/NewMoment';
 
 
@@ -27,7 +28,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/profile/:pk',
-    element: <PageProfile key={location.key}/>
+    element: <PageProfile />
+  },
+  {
+    path: '/profile/',
+    element: <PageMyProfile />
   },
   {
     path: '/actions',
