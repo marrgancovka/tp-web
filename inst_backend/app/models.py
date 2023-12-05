@@ -5,22 +5,20 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
 
-class ProfileManager(models.Manager):
+# class ProfileManager(models.Manager):
+#     def get_user_by_username(self, username):
+#         try:
+#             user = User.objects.get(username=username)
+#         except ObjectDoesNotExist:
+#             user = None
 
-    def get_user_by_username(self, username):
-        try:
-            user = User.objects.get(username=username)
-        except ObjectDoesNotExist:
-            user = None
-
-        return user
-
+#         return user
 
 class Profiles(models.Model):
-    objects = ProfileManager()
+    # objects = ProfileManager()
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars', default='image/avatars/default.jpg', blank=True, null=True)
-    nickname = models.CharField(max_length=30, unique=True)
 
     def __str__(self):
         return f'{self.user.username}'

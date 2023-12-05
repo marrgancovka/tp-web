@@ -24,9 +24,16 @@ function Login(){
         console.log(data);
         const response = await axios.post("http://127.0.0.1:8000/auth/token/login", data);
         const token = response.data['auth_token']
-        console.log('API Response:', response.data['auth_token']);
+        console.log('API Response:', token);
         sessionStorage.setItem('token', JSON.stringify(token));
-        navigate('/feed')
+        const headers = {
+            'Authorization': `token ${token}`
+        }
+        const response1 = await axios.get("http://127.0.0.1:8000/auth/users/me", {headers: headers});
+        const id = response1.data['id']
+        const response2 = await axios.get(`http://localhost:8000/profile/me/${id}?user=true`)
+        const id_profile = response2.data[0]['id']
+        navigate('/feed', {state: {me: id_profile}})
 
     } catch (error) {
         console.log(error);

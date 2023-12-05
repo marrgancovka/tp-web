@@ -1,11 +1,120 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from app.models import Tags, Comments, Profiles, Moments, Subscriptions, LikesComment, LikesMoment
-from instagram.serializers import TagsSerializer, CommentsSerializer, MomentsSerializer
+from app.models import Tags, Comments, Profiles, Moments, Subscriptions, LikesComment, LikesMoment, User
+from instagram.serializers import TagsSerializer, CommentsSerializer, MomentsSerializer, ProfileSerializer, SubscriptionSerializer
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from rest_framework import viewsets
+
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для профиля
+    """
+    serializer_class = ProfileSerializer
+    def create(self, request):
+        id_user = request.data.get('id_user')
+        user = User.objects.filter(id=id_user).first()
+        print(user)
+        print(user.username)
+        new_profile = Profiles.objects.create(user_id = id_user)
+        serializer = ProfileSerializer(new_profile)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def get_queryset(self):
+        user = self.request.query_params.get('user', False)
+        id = self.kwargs.get('pk')
+        if user:
+            queryset = Profiles.objects.filter(user_id = id)
+        else:
+            queryset = Profiles.objects.filter(id = id)  
+
+        return queryset
+
+
+class MomentsViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для моментов
+    """
+    serializer_class = MomentsSerializer
+    # permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        feed = self.request.query_params.get('feed', False)
+        offset = self.request.query_params.get('offset', 0)
+        count = self.request.query_params.get('count', 5)        
+        if feed:
+            print("feed")
+            print(offset, count)
+            sub_users = Subscriptions.objects.filter(subscriber = str(self.kwargs.get('pk')), is_delete = False).values_list('author')
+            my_moments = Moments.objects.filter(author=str(self.kwargs.get('pk')), is_delete=False).order_by('-date_creation')
+            moments = Moments.objects.filter(author__in = sub_users, is_delete=False).order_by('-date_creation')
+
+            queryset = moments | my_moments
+            queryset = queryset[int(offset):(int(count)+int(offset))]
+            print(sub_users)
+            print(queryset)
+        elif str(self.kwargs.get('pk'))!="None":
+            print("my")
+            queryset = Moments.objects.filter(author = str(self.kwargs.get('pk')), is_delete = False).order_by('-date_creation')
+        else:
+            print('all')
+            queryset = Moments.objects.filter(is_delete = False).order_by('-date_creation')
+
+
+        return queryset
+
+
+class SubscroptionsViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для подписок
+    """
+    serializer_class = ProfileSerializer
+    def get_queryset(self):
+        
+        subs = self.request.query_params.get('subs', False) #подписки, пользователь подписан на них
+        if subs: 
+            print("subs")
+            sub_users = Subscriptions.objects.filter(subscriber_id = str(self.kwargs.get('pk')), is_delete = False).order_by('-date_subscription').values_list('author')
+            queruset = Profiles.objects.filter(id__in = sub_users)
+        else:
+            sub_users = Subscriptions.objects.filter(author_id = str(self.kwargs.get('pk')), is_delete = False).order_by('-date_subscription').values_list('subscriber')
+            queruset = Profiles.objects.filter(id__in = sub_users)
+            
+        return queruset
+    
+    def create(self, request):
+        author_id = request.data.get('author_id')
+        subscriber_id = request.data.get('subscriber_id')
+
+        author_profile = Profiles.objects.get(id=author_id)
+        subscriber_profile = Profiles.objects.get(id=subscriber_id)
+
+        sub_exist = Subscriptions.objects.filter(author=author_profile, subscriber=subscriber_profile, is_delete=False).exists()
+        print(sub_exist)
+        if sub_exist:
+            print("exists")
+            existing_subscription = Subscriptions.objects.get(author=author_profile, subscriber=subscriber_profile, is_delete=False)
+            existing_subscription.is_delete = True
+            existing_subscription.save()
+
+            serializer = SubscriptionSerializer(existing_subscription)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            print("else")
+            subscription = Subscriptions.objects.create(author=author_profile, subscriber=subscriber_profile)
+
+            serializer = SubscriptionSerializer(subscription)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+    def count(self, request, pk=None):
+        user = Profiles.objects.get(pk=pk)
+        subscriber_count = Subscriptions.objects.filter(author=user, is_delete=False).count()
+        subscriptions_count = Subscriptions.objects.filter(subscriber=user, is_delete=False).count()
+        moments_count = Moments.objects.filter(author = pk).count()
+        return Response({'subscribers_count': subscriber_count, 'subscriptions_count': subscriptions_count, 'moments_count': moments_count}, status=status.HTTP_200_OK)
+
 
 
 @api_view(['GET'])
@@ -46,7 +155,6 @@ def get_tags_by_id(request, pk, format=None):
 
 
 @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
 def new_comment(request, pk, format=None):
     """
     Создает новый комментарий
@@ -73,7 +181,6 @@ def get_comments_from_moment(request,pk, format=None):
     return Response(serialiser.data)
 
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
 def get_comments_from_user(request, format=None):
     """
     Возвращает список комментариев под моментами пользователя
@@ -87,7 +194,6 @@ def get_comments_from_user(request, format=None):
     return Response(serialiser.data)
 
 @api_view(['DELETE'])
-# @permission_classes([IsAuthenticated])
 def delete_comment(request, pk, format=None):
     """
     Удаляет комментарий
@@ -141,11 +247,11 @@ def  new_moment(request, format=None):
 
 @api_view(['GET'])
 def get_moment_by_id(request, pk, format=None):
-    moment = get_object_or_404(Moments, author_id=pk)
-    """if serializer.is_valid():
+    moments =  moments = Moments.objects.filter(is_delete=False, author_id=pk)
+    """
     Возвращает информацию о моменте
     """
-    serializer = MomentsSerializer(moment)
+    serializer = MomentsSerializer(moments, many=True)
     return Response(serializer.data)
 
 @api_view(['DELETE'])

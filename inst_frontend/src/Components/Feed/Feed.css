@@ -29,6 +29,7 @@
 }
 .name{
     margin-left: 2%;
+    cursor: pointer;
 }
 .description{
     margin-left: 1%;

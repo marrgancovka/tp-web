@@ -8,7 +8,8 @@ import PageFeed from './Pages/Feed/Feed';
 import PageProfile from './Pages/Profile/Profile';
 import PageAction from './Pages/Action/Action';
 import PageSearch from './Pages/Search/Search';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, createHashRouter } from 'react-router-dom'
+import PageNewMoment from './Pages/NewMoment/NewMoment';
 
 
 const router = createBrowserRouter([
@@ -25,8 +26,8 @@ const router = createBrowserRouter([
     element: <PageFeed/>
   },
   {
-    path: '/profile',
-    element: <PageProfile/>
+    path: '/profile/:pk',
+    element: <PageProfile key={location.key}/>
   },
   {
     path: '/actions',
@@ -36,10 +37,42 @@ const router = createBrowserRouter([
     path: '/search',
     element: <PageSearch/>
   },
+  {
+    path: '/new_moment',
+    element: <PageNewMoment/>
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  // {/* </React.StrictMode>, */}
 )
+
+
+// import React from 'react';
+// import ReactDOM from 'react-dom/client';
+// import './index.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import { HashRouter, Routes, Route } from 'react-router-dom';
+// import PageReg from './Pages/Register/Register';
+// import PageLogin from './Pages/Login/Login';
+// import PageFeed from './Pages/Feed/Feed';
+// import PageProfile from './Pages/Profile/Profile';
+// import PageAction from './Pages/Action/Action';
+// import PageSearch from './Pages/Search/Search';
+// import PageNewMoment from './Pages/NewMoment/NewMoment';
+
+// ReactDOM.createRoot(document.getElementById('root')).render(
+//   <HashRouter>
+//     <Routes>
+//       <Route path="/register" element={<PageReg />} />
+//       <Route path="/login" element={<PageLogin />} />
+//       <Route path="/feed" element={<PageFeed />} />
+//       <Route path="/profile/:pk" element={<PageProfile />} />
+//       <Route path="/actions" element={<PageAction />} />
+//       <Route path="/search" element={<PageSearch />} />
+//       <Route path="/new_moment" element={<PageNewMoment />} />
+//     </Routes>
+//   </HashRouter>
+// );
