@@ -2,12 +2,13 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from app.models import Tags, Comments, Profiles, Moments, Subscriptions, LikesComment, LikesMoment, User
-from instagram.serializers import TagsSerializer, CommentsSerializer, MomentsSerializer, ProfileSerializer, SubscriptionSerializer
+from app.models import Tags, Comments, Profiles, Moments, Subscriptions, LikesMoment, User
+from instagram.serializers import TagsSerializer, CommentsSerializer, MomentsSerializer, ProfileSerializer, SubscriptionSerializer, LikeMomentSerializer
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-
+from django.db.models import Q
+from django.http import Http404
 
 class ProfileViewSet(viewsets.ModelViewSet):
     """
@@ -22,14 +23,22 @@ class ProfileViewSet(viewsets.ModelViewSet):
         new_profile = Profiles.objects.create(user_id = id_user)
         serializer = ProfileSerializer(new_profile)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    def get_queryset(self):
+    def me(self, request, *args, **kwargs):
         user = self.request.query_params.get('user', False)
-        id = self.kwargs.get('pk')
+        id = kwargs.get('pk')
         if user:
-            queryset = Profiles.objects.filter(user_id = id)
+            user = Profiles.objects.get(user_id = id)
         else:
-            queryset = Profiles.objects.filter(id = id)  
+            user = Profiles.objects.get(id = id)  
+        serializer = ProfileSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def get_queryset(self):
+        search = self.request.query_params.get('search')
+        if search!='':
+            queryset = Profiles.objects.filter(Q(user__username__icontains=search))
+        else:
+            raise Http404  
         return queryset
 
 
@@ -39,6 +48,12 @@ class MomentsViewSet(viewsets.ModelViewSet):
     """
     serializer_class = MomentsSerializer
     # permission_classes = [IsAuthenticated]
+
+    def get_serializer_context(self):
+        context =  super().get_serializer_context()
+
+        context.update({"request": self.request,"id_me": self.kwargs.get('pk')})
+        return context
 
     def get_queryset(self):
         feed = self.request.query_params.get('feed', False)
@@ -91,20 +106,21 @@ class SubscroptionsViewSet(viewsets.ModelViewSet):
         author_profile = Profiles.objects.get(id=author_id)
         subscriber_profile = Profiles.objects.get(id=subscriber_id)
 
-        sub_exist = Subscriptions.objects.filter(author=author_profile, subscriber=subscriber_profile, is_delete=False).exists()
+        sub_exist = Subscriptions.objects.filter(author=author_profile, subscriber=subscriber_profile).exists()
         print(sub_exist)
         if sub_exist:
-            print("exists")
-            existing_subscription = Subscriptions.objects.get(author=author_profile, subscriber=subscriber_profile, is_delete=False)
-            existing_subscription.is_delete = True
+            print("exists")  
+            existing_subscription = Subscriptions.objects.get(author=author_profile, subscriber=subscriber_profile)
+            if existing_subscription.is_delete:
+                existing_subscription.is_delete = False
+            else: 
+                existing_subscription.is_delete = True
             existing_subscription.save()
-
             serializer = SubscriptionSerializer(existing_subscription)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             print("else")
             subscription = Subscriptions.objects.create(author=author_profile, subscriber=subscriber_profile)
-
             serializer = SubscriptionSerializer(subscription)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
@@ -115,7 +131,45 @@ class SubscroptionsViewSet(viewsets.ModelViewSet):
         moments_count = Moments.objects.filter(author = pk).count()
         return Response({'subscribers_count': subscriber_count, 'subscriptions_count': subscriptions_count, 'moments_count': moments_count}, status=status.HTTP_200_OK)
 
+    def is_sub(self, request, *args, **kwargs):
+        id_me = kwargs.get('pk_me')
+        id_user = kwargs.get('pk_user')
+        author_profile = Profiles.objects.get(id=id_user)
+        sub_profile = Profiles.objects.get(id=id_me)
+        existing_subscription = Subscriptions.objects.filter(author = author_profile, subscriber = sub_profile, is_delete = False).exists()
+        if existing_subscription:
+            return Response({'is_sub': True}, status=status.HTTP_200_OK)
+        return Response({'is_sub': False}, status=status.HTTP_200_OK)
 
+class LikeMomentViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для лайков под моментами
+    """
+    serializer_class = LikeMomentSerializer
+    def create(self, request):
+        author_id = request.data.get('author_id')
+        moment_id = request.data.get('moment_id')
+
+        author = Profiles.objects.get(id = author_id)
+        moment = Moments.objects.get(id=moment_id)
+
+        exists_like = LikesMoment.objects.filter(author = author, moment = moment).exists()
+        print(exists_like)
+        if exists_like:
+            print("exists")
+            like = LikesMoment.objects.get(author=author, moment=moment)
+            if like.is_delete:
+                like.is_delete = False
+            else:
+                like.is_delete = True
+            like.save()
+            serializer = LikeMomentSerializer(like)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            print("else")
+            like = LikesMoment.objects.create(author=author, moment=moment)
+            serializer = LikeMomentSerializer(like)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
 def get_tags_list(request, format=None):

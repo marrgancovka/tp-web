@@ -17,17 +17,20 @@ urlpatterns = [
    path('auth/', include('djoser.urls.authtoken')),
 
    path(r'profile/register/', views.ProfileViewSet.as_view({'post': 'create'})),
-   path(r'profile/me/<int:pk>/', views.ProfileViewSet.as_view({'get': 'list'})),
+   path(r'profile/me/<int:pk>/', views.ProfileViewSet.as_view({'get': 'me'})),
+   path(r'profile/', views.ProfileViewSet.as_view({'get': 'list'})),
    
    path(r'moments/', views.MomentsViewSet.as_view({'get': 'list', 'post': 'create'})),
    path(r'moments/<int:pk>/', views.MomentsViewSet.as_view({'get': 'list'})),
    # path(r'moments/', views.MomentsViewSet.as_view({'post': 'create'})),
-
+   path(r'moments/like/', views.LikeMomentViewSet.as_view({'post': 'create'})), #оформление лайка/дизлайка
+   
    path(r'subscribtions/<int:pk>/', views.SubscroptionsViewSet.as_view({'get': "list"})), #возвращает список подписок/подписчиков пользователя рк 
    path(r'subscriptions/', views.SubscroptionsViewSet.as_view({'post': 'create'})), #оформление подписки/отписки
    path(r'subscriptions/count/<int:pk>/', views.SubscroptionsViewSet.as_view({'get': 'count'})), #возвращает количество подписок, подписчиков, моментов
-   
+   path(r'subscriptions/<int:pk_me>/<int:pk_user>/', views.SubscroptionsViewSet.as_view({'get': 'is_sub'}))
 
+   
 
    #  path(r'tags/', views.get_tags_list, name="tag list"),
    #  path(r'tags/<int:pk>/', views.get_tags_by_id, name="tag by id"),
