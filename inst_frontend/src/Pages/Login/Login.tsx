@@ -1,9 +1,12 @@
 import React from "react";
 import Login from "../../Components/Login/Login";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import image from "./moments.png"
+import './Login.css'
 
 function PageLogin(){
     const navigate = useNavigate()
+    const location = useLocation()
 
     const registrationHandler = (event) => {
         event.preventDefault()
@@ -11,11 +14,13 @@ function PageLogin(){
     }
 
     return(
-        <div>
-        <h1>Страница авторизации</h1>
-        <Login/>
-        <button onClick={registrationHandler}>Зарагестрироваться!</button>
-        </div>
+        <div className="login_group">
+            <img src={image} alt="Moments" className="moments_logo"/>
+            <Login location = {location.pathname}/>
+            <div className="toreg">
+                Еще нет аккаунта? <span onClick={registrationHandler} className="linktoreg">Зарегистрироваться!</span>
+            </div>
+          </div>
     )
 }
 

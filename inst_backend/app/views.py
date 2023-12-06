@@ -79,6 +79,18 @@ class MomentsViewSet(viewsets.ModelViewSet):
 
 
         return queryset
+    
+    def create(self, request, *args, **kwargs):
+        author_id = request.data.get('author')
+        content = request.data.get('content')
+        image = request.data.get('image')
+
+        author = Profiles.objects.get(id=author_id)
+        newMoment = Moments.objects.create(author = author, content = content, image = image)
+
+        serializer = MomentsSerializer(newMoment)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
 
 
 class SubscroptionsViewSet(viewsets.ModelViewSet):

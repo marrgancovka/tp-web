@@ -22,7 +22,7 @@ const Headprofile = (props) => {
                 console.log(jsonData)})
             const resp_me = fetch(`http://localhost:8000/profile/me/${location.state.profile}/`)
                     .then((response)=>response.json())
-                    .then((jsonData)=>{setUser(jsonData[0])
+                    .then((jsonData)=>{setUser(jsonData)
                         console.log(jsonData)
                         console.log(user)
                     })
@@ -53,9 +53,9 @@ const Headprofile = (props) => {
     return(
         <div className='header'>
             <div className="avatar">
-                <img src={baseavatar} alt="" className='ava_image'/>
+                <img src={`http://127.0.0.1:8000/${user.avatar}`} alt="" className='ava_image'/>
             </div>
-            <div className="username">
+            <div className="profile_username">
                 {user?.user_info?.username}
             </div>
             <div className='container_info'>

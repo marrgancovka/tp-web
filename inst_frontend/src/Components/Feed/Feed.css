@@ -42,6 +42,7 @@
 .name_desc{
     font-weight: 500;
     font-size: 20px;
+    cursor: pointer;
 }
 .content{
     font-size: 20px;
@@ -51,6 +52,8 @@
     display: flex;
     justify-content: start;
     width: 700px;
+    align-items: end;
+    font-size: 20px;
 }
 .feedback_icons{
     height: 30px;

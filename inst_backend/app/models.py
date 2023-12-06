@@ -18,7 +18,7 @@ class Profiles(models.Model):
     # objects = ProfileManager()
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='avatars', default='image/avatars/default.jpg', blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars', default='idefault.jpg', blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username}'

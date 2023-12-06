@@ -3,7 +3,7 @@ import './Login.css'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 
-function Login(){
+function Login(props){
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
@@ -30,9 +30,12 @@ function Login(){
             'Authorization': `token ${token}`
         }
         const response1 = await axios.get("http://127.0.0.1:8000/auth/users/me", {headers: headers});
+        console.log(response1.data)
         const id = response1.data['id']
-        const response2 = await axios.get(`http://localhost:8000/profile/me/${id}?user=true`)
-        const id_profile = response2.data[0]['id']
+        console.log(id)
+        const response2 = await axios.get(`http://localhost:8000/profile/me/${id}/?user=true`)
+        console.log(response2.data)
+        const id_profile = response2.data['id']
         navigate('/feed', {state: {me: id_profile}})
 
     } catch (error) {
@@ -49,6 +52,7 @@ function Login(){
                 placeholder="Имя пользователя"
                 onChange={usernameHandler}
                 className="inputForm"
+                autoComplete="off"
             />
             <input 
                 type="password" 
@@ -56,8 +60,9 @@ function Login(){
                 placeholder="Пароль" 
                 onChange={passwordHandler}
                 className="inputForm"
+                autoComplete="off"
             />
-            <button className="btn_login">Войти</button>
+            <button className="btn_login" onClick={submitHandler}>Войти</button>
         </form>
         
         </div>

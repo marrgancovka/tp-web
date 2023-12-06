@@ -1,24 +1,51 @@
 .searchcontainer{
-    width: 50%;
+    width: 400px;
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin: auto;
 }
 .profile{
     display: grid;
     grid-template-columns: 60px auto;
     grid-template-rows: 60px;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     border-bottom: solid rgb(209, 209, 209) 1px;
+    width: 100%;
+    padding: 2% 3%;
 }
 
 .username{
-    font-size: 18px;
+    font-size: 20px;
+    margin-left: 15px;
+    cursor: pointer;
 }
 .myavatar{
     width: 100%;
     border-radius: 50%;
     max-height: 100%;
     object-fit:cover;
+    border: 1px solid rgb(209, 209, 209);
+    cursor: pointer;
+}
+.searchinput{
+    margin: 3% 0;
+    width: 400px;
+    height: 50px;
+    border: solid 1px rgb(209, 209, 209);
+    border-radius: 15px;
+    font-size: 18px;
+    padding: 1%;
+}
+.input_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.notfound{
+    font-size: 18px;
+    width: 400px;
+    margin: auto;
+    padding: 0 5%;
 }

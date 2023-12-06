@@ -1,0 +1,53 @@
+.newMomentInput{
+    border: solid 1px rgb(209, 209, 209);
+    border-radius: 15px;
+    font-size: 18px;
+    margin-bottom: 2%;
+    width: 100%;
+    resize: none;
+    padding: 1% 15px;
+    height: 150px;
+}
+.newMomentContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    background-color: white;
+    width: 1450px;
+    margin: auto;
+    margin-top: 3%;
+}
+.btnNewMoment{
+    border: solid 1px rgb(209, 209, 209);
+    border-radius: 15px;
+    font-size: 18px;
+    background-color: white;
+    padding: 1% 5%;
+}
+.newMomentpreview{
+    object-fit: cover;
+    max-height: 900px;
+    width: 600px;
+    margin: auto;
+    
+}
+.newMomentImage{
+    font-size: 18px;
+    margin-bottom: 2%;
+    width: 100%;
+    resize: none;
+    
+}
+.btnNewMoment:active{
+    background-color: rgb(240, 240, 240);
+}
+.other{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    width: 700px;
+    margin: auto;
+}

@@ -26,7 +26,6 @@ const Navbar = () => {
     }
     const toProfile = ()=>{
         location.state.profile = location.state.me
-        // setKey(key+1)
         navigate(`/profile/`, {state: location.state})
     }
     const toNewMoment = ()=>{
@@ -44,12 +43,7 @@ const Navbar = () => {
                 <img onClick={toActions} src={actions} alt="" className='icons'/>
                 <img onClick={toSearch} src={search} alt="" className='icons'/>
                 <img key={key} onClick={toProfile} src={profile} alt="" className='icons'/>
-                {/* <Link onClick={()=>{setKey(key+1)}} key={key} to={'/profile/'+location.state.profile} state={{me: location.state.me, profile: location.state.me}}>
-                    <img src={profile} alt="" className='icons'/>
-                </Link> */}
             </div>
-            {/* <h3>{location.state.me}</h3>
-            <h3>{location.state?.profile}</h3> */}
         </div>
     )
 }

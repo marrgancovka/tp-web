@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import Register from "../../Components/Register/Register";
 import React from "react";
+import image from "./moments.png"
+import './Register.css'
 
 function PageReg(){
     const navigate = useNavigate()
@@ -11,12 +13,13 @@ function PageReg(){
     }
 
     return (
-        <>
-        <h1>Страница регистрации</h1>
+        <div className="login_group">
+        <img src={image} alt="Moments" className="moments_logo"/>
         <Register/>
-
-        <button onClick={loginHandler}>Войти</button>
-        </>
+        <div className="toreg">
+            Уже есть аккаунт? <span onClick={loginHandler} className="linktoreg">Войти!</span>
+        </div>
+      </div>
     )
 }
 

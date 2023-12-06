@@ -1,36 +1,27 @@
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
+import './NewMoment.css'
 
 const NewMoment = (props) => {
     const location = useLocation()
+    const navigate = useNavigate()
     const [content, setContent] = useState()
     const [photo, setPhoto] = useState()
-
-    // useEffect(()=>{
-        
-    //     try{
-    //         console.log(props.id)
-    //             const response = fetch(`http://localhost:8000/moments/${location.state}`)
-    //             .then((response) => response.json())
-    //             .then((jsonData) => {setMoments(jsonData)
-    //             console.log(jsonData)
-    //             console.log(`http://localhost:8000/moments/${location.state}`)})
-    //             .catch((error) => console.error('Error fetching data:', error));
-            
-            
-    //     }catch(error){
-    //         console.log(error)
-    //     } 
-    // }, [])
+    const [photoPreview, setPhotoPreview] = useState(null);
 
     const contentHandler = (event) => {
         setContent(event.target.value)
     }
     const photoHandler = (event) => {
-        setPhoto(event.target.files[0])
+        const selectedPhoto = event.target.files[0];
+        setPhoto(selectedPhoto);
+
+        setPhotoPreview(URL.createObjectURL(selectedPhoto));
+
     }
     const submitHandler = async (evemt) =>{
+        
         let data = {
             content: content,
             image: photo,
@@ -38,29 +29,42 @@ const NewMoment = (props) => {
         }
         console.log(data);
         console.log(location.state)
-        const response = await axios.post("http://127.0.0.1:8000/moments/", data, {headers: {"Content-Type": "multipart/form-data"}});
-        console.log(response.data)
+        const response = await axios.post("http://127.0.0.1:8000/moments/", data, {headers: {"Content-Type": "multipart/form-data"}});        
+        navigate('/feed', {state: location.state})
+        
     }
     
 
     return(
-        <div>
-            <input 
-                type="text"
-                name='content'
-                placeholder="Добавьте подпись..."
-                onChange={contentHandler}
-                className="inputForm"
-            />
+        <div className="newMomentContainer">
+            {photoPreview && (
+                <img
+                    src={photoPreview}
+                    alt="Photo Preview"
+                    className="newMomentpreview"
+                />
+            )}
+            <div className="other">
             <input 
                 type="file" 
                 name='photo'
                 placeholder="Фотография" 
                 onChange={photoHandler}
-                className="inputForm"
+                className="newMomentImage"
             />
-            <button onClick={submitHandler} className="btn_login">Опубликовать</button>
-        </div>
+            <textarea 
+                type="texta"
+                name='content'
+                placeholder="Добавьте подпись..."
+                onChange={contentHandler}
+                className="newMomentInput"
+                autoComplete="off"
+            />
+            <button onClick={submitHandler} className="btnNewMoment">Опубликовать</button>
+        
+
+            </div>
+            </div>
     )
 }
 export default NewMoment

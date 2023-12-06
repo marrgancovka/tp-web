@@ -56,19 +56,19 @@ const Moment = (props) => {
     return(
         <div className="feed">
                     <div className="head ml">
-                        <div className="ava"></div>
+                        <img src={props.item.author_info.avatar} alt="" className="ava"/>
                         <div onClick={authorHeandler} className="name"> {props.item.author_info.user_info.username}</div>
                     </div>
                     <div className="image">
                         <img src={`${props.item.image}`} alt={props.item.image} className="image_image"/>
                     </div>
-                    {Boolean(count_likes) && <div>Понравилось {count_likes} пользователям</div>}
                     <div className="feedback ml">
                         <img src={(is_like && like_red) || (like)} alt="" className="feedback_icons" onClick={likeHandler} />                        
                         <img src={comment} alt="" className="feedback_icons"/>
+                        {Boolean(count_likes) && <div>Понравилось {count_likes} пользователям</div>}
                     </div>
                     <div className="description ml">
-                        <div className="name_desc">{props.item.author_info.user_info.username}</div>
+                        <div className="name_desc" onClick={authorHeandler}>{props.item.author_info.user_info.username}</div>
                         <div className="content ml">{props.item.content}</div>
                     </div>
                 </div>

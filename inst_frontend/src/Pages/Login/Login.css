@@ -1,0 +1,17 @@
+.login_group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10% 0;
+}
+.moments_logo{
+    width: 300px;
+    margin-bottom: 2%;
+}
+.linktoreg{
+    cursor: pointer;
+    color: rgb(80, 80, 255);
+}
+.toreg{
+    cursor:default;
+}

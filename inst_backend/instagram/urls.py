@@ -22,7 +22,6 @@ urlpatterns = [
    
    path(r'moments/', views.MomentsViewSet.as_view({'get': 'list', 'post': 'create'})),
    path(r'moments/<int:pk>/', views.MomentsViewSet.as_view({'get': 'list'})),
-   # path(r'moments/', views.MomentsViewSet.as_view({'post': 'create'})),
    path(r'moments/like/', views.LikeMomentViewSet.as_view({'post': 'create'})), #оформление лайка/дизлайка
    
    path(r'subscribtions/<int:pk>/', views.SubscroptionsViewSet.as_view({'get': "list"})), #возвращает список подписок/подписчиков пользователя рк 

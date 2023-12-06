@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
 import './SearchUser.css'
+import ListProfile from "../ListProfile/ListProfile"
 
 const SearchUser = (props) => {
     const location = useLocation()
@@ -30,19 +31,17 @@ const SearchUser = (props) => {
         
     }
 
-
     return(
         <div>
-            <input type="text" name="search" placeholder="Введите имя пользователя" onChange={searchHandler}/>
+            <div className="input_container">
+                <input type="text" name="search" placeholder="Введите имя пользователя" onChange={searchHandler} className="searchinput" autoComplete="off" />
+            </div>
             <div className="searchcontainer"> 
                 {users.map((item, index)=>(
-                    <div className="profile">
-                        <img src={item.avatar} alt="" className="myavatar"/>
-                        <div className="username">{item.user_info.username}</div>
-                    </div>   
+                    <ListProfile item ={item} key={index}/>
                 ))}
             </div>
-            {notFound && <p>Ничего не найдено :(</p>}
+            {notFound && <div className="notfound">Ничего не найдено :(</div>}
         </div>
         
     )
