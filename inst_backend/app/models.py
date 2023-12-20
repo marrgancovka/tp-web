@@ -39,7 +39,12 @@ class Moments(models.Model):
     tags = models.ManyToManyField('Tags', blank=True, related_name='tags')
     is_delete = models.BooleanField(default=False)
 
+class CommentsManager(models.Manager):
+    def get_all_by_moment(self, pk):
+        return Comments.objects.filter(moment_id = pk, is_delete = False)
+
 class Comments(models.Model):
+    objects = CommentsManager()
     content = models.CharField(max_length=1000)
     date_creation = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey('Profiles', on_delete=models.CASCADE)

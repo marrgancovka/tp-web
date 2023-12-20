@@ -177,3 +177,22 @@ class LikeMomentViewSet(viewsets.ModelViewSet):
             like = LikesMoment.objects.create(author_id=author_id, moment_id=moment_id)
             serializer = LikeMomentSerializer(like)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+class CommentsViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для комментариев
+    """
+    serializer_class = CommentsSerializer
+    def create(self, request):
+        author_id = request.data.get('author_id')
+        moment_id = request.data.get('moment_id')
+        content = request.data.get('content')
+
+        comment = Comments.objects.create(author_id = author_id, moment_id = moment_id, content = content)
+        serializer = CommentsSerializer(comment)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def get_queryset(self):
+        id = self.kwargs.get('id')
+        return Comments.objects.get_all_by_moment(id)
