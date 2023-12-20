@@ -196,3 +196,4 @@ class CommentsViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         id = self.kwargs.get('id')
         return Comments.objects.get_all_by_moment(id)
+    
