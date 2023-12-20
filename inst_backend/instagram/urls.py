@@ -29,22 +29,6 @@ urlpatterns = [
    path(r'subscriptions/count/<int:pk>/', views.SubscroptionsViewSet.as_view({'get': 'count'})), #возвращает количество подписок, подписчиков, моментов
    path(r'subscriptions/<int:pk_me>/<int:pk_user>/', views.SubscroptionsViewSet.as_view({'get': 'is_sub'}))
 
-   
-
-   #  path(r'tags/', views.get_tags_list, name="tag list"),
-   #  path(r'tags/<int:pk>/', views.get_tags_by_id, name="tag by id"),
-   #  path(r'tags/new/', views.new_tags, name="new tag"),
-
-   #  path(r'comments/<int:pk>', views.get_comment_by_id, name="comment by id"),
-   #  path(r'comments/delete/', views.delete_comment, name="delete comment"),
-   #  path(r'comments/new/', views.new_comment, name="new comment"),
-   #  path(r'comments/from/moment/<int:pk>', views.get_comments_from_moment, name="get comment from moment"),
-   #  path(r'comments/from/user', views.get_comments_from_user, name="get comment from user"),
-
-   #  path(r'moment/', views.get_moments_list, name="get_moments_list"),
-   #  path(r'moment/new/', views.new_moment, name="new_moment"),
-   #  path(r'moment/<int:pk>', views.get_moment_by_id, name="get moment by id"),
-   #  path(r'moment/delete/<int:pk>', views.delete_moment, name="delete moment")
 ]
 
 if settings.DEBUG:
