@@ -7,12 +7,19 @@ import Grid from "../../Components/Grid/Grid"
 
 const PageProfile = () => {
     const navigate = useNavigate() 
+    const location = useLocation()
+    const [id, setId] = useState('')
+    
+    useEffect(()=>{
+        setId(location.state.profile)
+        console.log(location.state.profile, '++++++++++++')
+    },[])
 
     return(
         <>
         <Navbar/>
-        <Headprofile/>
-        <Grid />
+        <Headprofile id = {id}/>
+        <Grid id= {id}/>
         </>        
     )
 }

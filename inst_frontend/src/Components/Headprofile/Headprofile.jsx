@@ -13,13 +13,14 @@ const Headprofile = (props) => {
     const isMe = (location.state.me === location.state.profile)
     const [is_sub, setIs_sub] = useState(false)
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    // const profileId = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
+    const [subs, setSubs] = useState(false)
+    const [title, setTitle] = useState('')
     
 
     useEffect(()=>{
         try{
             console.log(location.state)
+            console.log(props.id, '------------------------')
             const resp_count = fetch(`http://localhost:8000/subscriptions/count/${location.state.profile}`)
                 .then((response) => response.json())
                 .then((jsonData) => {setCount(jsonData)
@@ -52,7 +53,16 @@ const Headprofile = (props) => {
         setCount({moments_count: count.moments_count, subscribers_count: count.subscribers_count+1, subscriptions_count: count.subscriptions_count})
         }
     }
+    // subscribers
+    const openModalsubs = () => { 
+        setSubs(true);
+        setTitle('Ваши подписки')
+        setModalIsOpen(true);
+      };
+    //subscriptions
     const openModal = () => {
+        setSubs(false);
+        setTitle('Ваши подписчики')
         setModalIsOpen(true);
       };
   
@@ -64,7 +74,8 @@ const Headprofile = (props) => {
     return(
         <div className='header'>
             <div className="avatar">
-                <img src={`http://127.0.0.1:8000/${user.avatar}`} alt="" className='ava_image'/>
+                <img src={`http://127.0.0.1:8000${user?.avatar}`} alt='' className='ava_image'/>
+                
             </div>
             <div className="profile_username">
                 {user?.user_info?.username}
@@ -77,20 +88,20 @@ const Headprofile = (props) => {
                 </div>
 
                 <div className='head_info'>
-                    <div className='count subs'>{count.subscribers_count}</div>
-                    <div className='subs'>Подписчики</div>
+                    <div onClick={openModal} className='count subs'>{count.subscribers_count}</div>
+                    <div onClick={openModal} className='subs'>Подписчики</div>
                 </div>
 
                 <div className='head_info'>                    
-                    <div className='count subs'>{count.subscriptions_count}</div>
-                    <div onClick={openModal} className=' subs'>Подписки</div>
+                    <div onClick={openModalsubs} className='count subs'>{count.subscriptions_count}</div>
+                    <div onClick={openModalsubs} className=' subs'>Подписки</div>
                 </div>
 
             </div>
             {!isMe && !is_sub && <button className='btn_sub' onClick={subHandler}>Подписаться</button>}
             {!isMe && is_sub && <button className='btn_sub notSub' onClick={subHandler}>Отписаться</button>}
-            <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <ModalWindow/>
+            <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className='qwerty'>
+                <ModalWindow title={title} subs={subs}/>
             </Modal>
         </div>
     )

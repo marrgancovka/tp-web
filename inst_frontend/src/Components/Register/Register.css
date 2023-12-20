@@ -7,7 +7,7 @@
     
 }
 .input_reg{
-    margin-bottom: 5%;
+    margin-top: 8%;
     height: 60px;
     border-radius: 15px;
     border: 1px solid rgb(184, 184, 184);
@@ -21,7 +21,17 @@
     padding: 2% 8%;
     border-radius: 15px;
     font-size: 18px;
+    margin-top: 8%;
 }
 .btn_reg:active{
     background-color: rgb(238, 238, 238);
+}
+
+.errors{
+    color: rgb(247, 62, 62);
+    /* position: absolute; /* Абсолютное позиционирование элемента с ошибкой */
+    /* top: 100%; /* Размещение элемента с ошибкой под полем ввода */
+    /* left: 0;
+    margin-top: 5px; Дополнительный отступ от поля ввода */ 
+    margin-bottom: -24px;
 }

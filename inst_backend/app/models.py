@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 class ProfileManager(models.Manager):
-    def get_profiles_by_id(id_users):
+    def get_profiles_by_id(self, id_users):
         return Profiles.objects.filter(id__in = id_users)
 
 class Profiles(models.Model):

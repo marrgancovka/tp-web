@@ -1,0 +1,17 @@
+.data_modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+}
+.title_modal{
+    font-size: 24px;
+    cursor: default;
+    margin-bottom: 40px;
+}
+.items_model{
+    width: 60%;
+}
+.btn_sub_list{
+    width: 130px;
+}

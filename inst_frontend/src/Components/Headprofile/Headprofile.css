@@ -45,7 +45,7 @@
     cursor: pointer;
 }
 .btn_sub{
-    background-color: rgb(87, 87, 243);
+    background-color: rgb(133, 133, 255);
     border: solid 1px rgb(206, 206, 206);
     border-radius: 14px;
     padding: 1% 2%;
@@ -66,4 +66,20 @@
     width: 100%;
     height: 100%;
     background-color: aqua;
+}
+
+.qwerty{
+    height: auto;
+    min-height: 500px;
+    width: 700px;
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+    margin-top: 8%;
+    border: solid 1px rgb(209, 209, 209);
+    border-radius: 15px;
+    overflow: hidden;
+}
+.qwery:focus{
+    border: solid 1px rgb(209, 209, 209);
+    border-radius: 15px;
 }

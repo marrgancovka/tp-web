@@ -3,13 +3,14 @@ import './Grid.css'
 import { useLocation } from "react-router-dom"
 // import moment 
 
-const Grid = () => {
+const Grid = (props) => {
     const [moments, setMoments] = useState([])
     const location = useLocation()
     const profileId = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
 
 
     useEffect(()=>{
+        console.log(props.id, '------------------------grid')
         
         try{
                 const response = fetch(`http://localhost:8000/moments/${location.state.profile}`)

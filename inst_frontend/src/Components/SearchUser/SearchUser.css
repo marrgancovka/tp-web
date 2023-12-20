@@ -7,18 +7,19 @@
 }
 .profile{
     display: grid;
-    grid-template-columns: 60px auto;
+    grid-template-columns: 60px auto auto;
     grid-template-rows: 60px;
     justify-content: start;
     align-items: center;
     border-bottom: solid rgb(209, 209, 209) 1px;
     width: 100%;
-    padding: 2% 3%;
+    padding: 4% 3%;
 }
 
 .username{
+    width: 180px;
     font-size: 20px;
-    margin-left: 15px;
+    margin-left: 20px;
     cursor: pointer;
 }
 .myavatar{

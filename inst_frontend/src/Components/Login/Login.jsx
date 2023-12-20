@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import './Login.css'
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useRoutes} from 'react-router-dom'
 
 function Login(props){
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
+
+    const [passError, setPassError] = useState('')
+    const [usernameError, setUsernameError] = useState('')
+    const [badData, setBadData] = useState('')
 
    const usernameHandler = (event) => {
         setUsername(event.target.value)
@@ -16,12 +20,32 @@ function Login(props){
    }
    const submitHandler = async (event) => {
     event.preventDefault();
+    let data = {
+        username: username,
+        password: password
+    }
+    setBadData('')
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (password == ''){
+        setPassError('Обязательое поле!')
+    }
+    else {
+        setPassError('')
+    }
+    const usernamePattern = /^[a-zA-Z0-9][a-zA-Z0-9._]{0,29}$/;
+    console.log(username)
+    if (username == ''){
+        setUsernameError('Обязательое поле!')
+        return
+    }
+    else{
+        setUsernameError('')
+    }
+    if (passError!='' || usernameError!=''){
+        return
+    }
+
     try {
-        let data = {
-            username: username,
-            password: password
-        }
-        console.log(data);
         const response = await axios.post("http://127.0.0.1:8000/auth/token/login", data);
         const token = response.data['auth_token']
         console.log('API Response:', token);
@@ -40,6 +64,7 @@ function Login(props){
 
     } catch (error) {
         console.log(error);
+        setBadData("Неверное имя пользователя или пароль")
     }
    }
 
@@ -54,6 +79,8 @@ function Login(props){
                 className="inputForm"
                 autoComplete="off"
             />
+            {(usernameError!='') && <span className="error">{usernameError}</span>}
+
             <input 
                 type="password" 
                 name='password'
@@ -62,6 +89,9 @@ function Login(props){
                 className="inputForm"
                 autoComplete="off"
             />
+            {(passError!='') && <span className="error">{passError}</span>}
+            {(badData!='') && <span className="error">{badData}</span>}
+
             <button className="btn_login" onClick={submitHandler}>Войти</button>
         </form>
         

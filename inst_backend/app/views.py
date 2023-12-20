@@ -94,7 +94,7 @@ class SubscroptionsViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         subs = self.request.query_params.get('subs', False) #подписки, пользователь подписан на них
         pk = str(self.kwargs.get('pk'))
-        if subs: 
+        if subs=='true': 
             print("subs")
             sub_users = Subscriptions.objects.get_id_subscriptions(pk)
         else:
@@ -106,7 +106,7 @@ class SubscroptionsViewSet(viewsets.ModelViewSet):
         author_id = request.data.get('author_id')
         subscriber_id = request.data.get('subscriber_id')
 
-        sub_exist = Subscriptions.objects.filter(author=author_id, subscriber_id=subscriber_id).exists()
+        sub_exist = Subscriptions.objects.filter(author_id=author_id, subscriber_id=subscriber_id).exists()
         if sub_exist:
             print("exists")  
             existing_subscription = Subscriptions.objects.get(author_id=author_id, subscriber_id=subscriber_id)
@@ -119,7 +119,7 @@ class SubscroptionsViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             print("else")
-            subscription = Subscriptions.objects.create(author=author_id, subscriber_id=subscriber_id)
+            subscription = Subscriptions.objects.create(author_id=author_id, subscriber_id=subscriber_id)
             serializer = SubscriptionSerializer(subscription)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
