@@ -8,7 +8,11 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from django.db.models import Q
+from django.db import transaction
 from django.http import Http404
+import re
+from django.core.exceptions import ObjectDoesNotExist
+
 
 class ProfileViewSet(viewsets.ModelViewSet):
     """
@@ -78,11 +82,22 @@ class MomentsViewSet(viewsets.ModelViewSet):
         content = request.data.get('content')
         image = request.data.get('image')
 
-        serializer_context = {"request": request, "id_me": author_id}
-        newMoment = Moments.objects.create(author_id = author_id, content = content, image = image)
+        hashtags = re.findall(r'#\w+', content)
+        content_without_hashtags = re.sub(r'#\w+', '', content)
+        print(content_without_hashtags)
+        with transaction.atomic():
+            new_moment = Moments.objects.create(author_id=author_id, content=content_without_hashtags, image=image)
+            for tag_text in hashtags:
+                try:
+                    tag = Tags.objects.get(title=tag_text[1:])
+                except ObjectDoesNotExist:
+                    tag = Tags.objects.create(title=tag_text[1:])
+                new_moment.tags.add(tag)
+            serializer_context = {"request": request, "id_me": author_id}
+            serializer = MomentsSerializer(new_moment, context = serializer_context)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        serializer = MomentsSerializer(newMoment, context = serializer_context)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
         
 
 

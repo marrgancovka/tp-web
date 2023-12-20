@@ -31,6 +31,7 @@ class LikeMomentSerializer(serializers.ModelSerializer):
 
 class MomentsSerializer(serializers.ModelSerializer):
     author_info = ProfileSerializer(source='author', read_only=True)
+    tags = TagsSerializer(many=True) 
     likes_count = serializers.SerializerMethodField()
     is_liked = serializers.SerializerMethodField()
 
