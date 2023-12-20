@@ -3,6 +3,8 @@ import './Headprofile.css'
 import baseavatar from './avatar4.jpg'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import ModalWindow from '../Modal/Modal'
+import Modal from 'react-modal'
 
 const Headprofile = (props) => {
     const location = useLocation()
@@ -10,6 +12,8 @@ const Headprofile = (props) => {
     const [user, setUser] = useState({})
     const isMe = (location.state.me === location.state.profile)
     const [is_sub, setIs_sub] = useState(false)
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
     // const profileId = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
     
 
@@ -48,6 +52,13 @@ const Headprofile = (props) => {
         setCount({moments_count: count.moments_count, subscribers_count: count.subscribers_count+1, subscriptions_count: count.subscriptions_count})
         }
     }
+    const openModal = () => {
+        setModalIsOpen(true);
+      };
+  
+    const closeModal = () => {
+      setModalIsOpen(false);
+    };
 
 
     return(
@@ -66,19 +77,21 @@ const Headprofile = (props) => {
                 </div>
 
                 <div className='head_info'>
-                    <div className='count'>{count.subscribers_count}</div>
-                    <div>Подписчики</div>
+                    <div className='count subs'>{count.subscribers_count}</div>
+                    <div className='subs'>Подписчики</div>
                 </div>
 
                 <div className='head_info'>                    
-                    <div className='count'>{count.subscriptions_count}</div>
-                    <div>Подписки</div>
+                    <div className='count subs'>{count.subscriptions_count}</div>
+                    <div onClick={openModal} className=' subs'>Подписки</div>
                 </div>
 
             </div>
             {!isMe && !is_sub && <button className='btn_sub' onClick={subHandler}>Подписаться</button>}
             {!isMe && is_sub && <button className='btn_sub notSub' onClick={subHandler}>Отписаться</button>}
-        
+            <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
+                <ModalWindow/>
+            </Modal>
         </div>
     )
 }
