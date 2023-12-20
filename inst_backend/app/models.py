@@ -76,6 +76,7 @@ class LikesComment(models.Model):
     date_creation = models.DateTimeField(auto_now_add=True)
     is_delete = models.BooleanField(default=False)
 
+
 class Tags(models.Model):
     title = models.CharField(max_length=30, unique=True)
     def __str__(self):

@@ -59,7 +59,7 @@ const Feed = (props) => {
     return(
         <div className="main_feed">
             {moments.map((item, index)=>(
-                <Moment item={item} index = {index}/>
+                <Moment item={item} index = {index} tags={item.tags}/>
             ))}
         </div>
     )

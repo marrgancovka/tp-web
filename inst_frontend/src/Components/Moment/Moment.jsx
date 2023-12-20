@@ -5,6 +5,7 @@ import axios from "axios"
 import comment from './comment.svg'
 import like from './like.svg'
 import like_red from './like_red.svg'
+import './Moment.css'
 
 const Moment = (props) => {
     const location = useLocation()
@@ -13,23 +14,6 @@ const Moment = (props) => {
     const [count_likes, set_count_likes] = useState(props.item.likes_count)
     const [is_like, set_is_like] = useState(props.item.is_liked)
 
-
-    // useEffect(()=>{
-        
-    //     try{
-    //         console.log(props.id)
-    //             const response = fetch(`http://localhost:8000/moments/${location.state}`)
-    //             .then((response) => response.json())
-    //             .then((jsonData) => {setMoments(jsonData)
-    //             console.log(jsonData)
-    //             console.log(`http://localhost:8000/moments/${location.state}`)})
-    //             .catch((error) => console.error('Error fetching data:', error));
-            
-            
-    //     }catch(error){
-    //         console.log(error)
-    //     } 
-    // }, [])
     const authorHeandler = () => {
         location.state.profile = props.item.author
         navigate(`/profile/${props.item.author}`, {state: location.state})
@@ -67,10 +51,18 @@ const Moment = (props) => {
                         <img src={comment} alt="" className="feedback_icons"/>
                         {Boolean(count_likes) && <div>Понравилось {count_likes} пользователям</div>}
                     </div>
-                    <div className="description ml">
+                    {(props.item.content) && <div className="description ml">
                         <div className="name_desc" onClick={authorHeandler}>{props.item.author_info.user_info.username}</div>
-                        <div className="content ml">{props.item.content}</div>
-                    </div>
+                        <div className="content ml">
+                            {props.item.content}
+                            {console.log((props.tags.length))}
+                            {props.tags.length !== 0 &&
+                                props.tags.map((item, index) => (
+                                    <span className="tags" key={index}>#{item.title}</span>
+                                ))
+                            }
+                        </div>
+                    </div>}
                 </div>
     )
 }
