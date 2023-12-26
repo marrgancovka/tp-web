@@ -42,8 +42,26 @@ class ProfileViewSet(viewsets.ModelViewSet):
         if search!='':
             queryset = Profiles.objects.filter(Q(user__username__icontains=search))
         else:
-            raise Http404  
+            queryset = Profiles.objects.all()
+ 
         return queryset
+    
+    def update(self, request, *args, **kwargs):
+        id = kwargs.get('pk')
+        profile = Profiles.objects.get(id = id)
+        print(request.data['avatar'])
+        profile.avatar = request.data['avatar']
+        profile.user.username = request.data['user_info[username]']
+        print(profile.user.username)
+
+        profile.user.first_name = request.data['user_info[first_name]']
+        profile.user.last_name = request.data['user_info[last_name]']
+        profile.user.email = request.data['user_info[email]']
+        profile.save()
+        profile.user.save()
+        serializer = ProfileSerializer(profile)
+
+        return Response(serializer.data)
 
 
 class MomentsViewSet(viewsets.ModelViewSet):

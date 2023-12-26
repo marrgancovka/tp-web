@@ -16,7 +16,7 @@ class CommentsSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email', 'first_name', 'last_name']
 
 class ProfileSerializer(serializers.ModelSerializer):
     user_info = UserSerializer(source='user', read_only=True)
@@ -47,7 +47,6 @@ class MomentsSerializer(serializers.ModelSerializer):
         me = Profiles.objects.get(id = id_me)
         if request:
             try:
-                print(request.user)
                 LikesMoment.objects.get(moment=moment, author=me, is_delete=False)
                 return True
             except ObjectDoesNotExist:

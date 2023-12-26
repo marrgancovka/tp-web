@@ -6,9 +6,10 @@ import './NewMoment.css'
 const NewMoment = (props) => {
     const location = useLocation()
     const navigate = useNavigate()
-    const [content, setContent] = useState()
+    const [content, setContent] = useState(' ')
     const [photo, setPhoto] = useState()
     const [photoPreview, setPhotoPreview] = useState(null);
+    const [error, setError] = useState('')
 
     const contentHandler = (event) => {
         setContent(event.target.value)
@@ -27,8 +28,11 @@ const NewMoment = (props) => {
             image: photo,
             author: location.state.me
         }
-        console.log(data);
-        console.log(location.state)
+        console.log(photo)
+        if (photo==undefined){
+            setError('Загрузите фотографию')
+            return
+        }
         const response = await axios.post("http://127.0.0.1:8000/moments/", data, {headers: {"Content-Type": "multipart/form-data"}});        
         navigate('/feed', {state: location.state})
         
@@ -51,6 +55,7 @@ const NewMoment = (props) => {
                 placeholder="Фотография" 
                 onChange={photoHandler}
                 className="newMomentImage"
+                accept="image/*"
             />
             <textarea 
                 type="texta"
@@ -60,6 +65,7 @@ const NewMoment = (props) => {
                 className="newMomentInput"
                 autoComplete="off"
             />
+            {error!='' && <div className="error">{error}</div>}
             <button onClick={submitHandler} className="btnNewMoment">Опубликовать</button>
         
 

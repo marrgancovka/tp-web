@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import './Headprofile.css'
 import baseavatar from './avatar4.jpg'
 import { useEffect, useState } from 'react'
@@ -15,6 +15,7 @@ const Headprofile = (props) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [subs, setSubs] = useState(false)
     const [title, setTitle] = useState('')
+    const navigate = useNavigate()
     
 
     useEffect(()=>{
@@ -69,9 +70,13 @@ const Headprofile = (props) => {
     const closeModal = () => {
       setModalIsOpen(false);
     };
+    const toSettings = () => {
+        navigate('/settings', {state: location.state})
+    }
 
 
     return(
+        <div>
         <div className='header'>
             <div className="avatar">
                 <img src={`http://127.0.0.1:8000${user?.avatar}`} alt='' className='ava_image'/>
@@ -100,9 +105,11 @@ const Headprofile = (props) => {
             </div>
             {!isMe && !is_sub && <button className='btn_sub' onClick={subHandler}>Подписаться</button>}
             {!isMe && is_sub && <button className='btn_sub notSub' onClick={subHandler}>Отписаться</button>}
+            {isMe && <button className='btn_sub notSub' onClick={toSettings}>Настройки</button>}
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className='qwerty'>
                 <ModalWindow title={title} subs={subs}/>
             </Modal>
+        </div>
         </div>
     )
 }

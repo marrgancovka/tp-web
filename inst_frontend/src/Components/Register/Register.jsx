@@ -12,7 +12,7 @@ function Register(){
     const [emailError, setEmailError] = useState('')
     const [passError, setPassError] = useState('')
     const [usernameError, setUsernameError] = useState('')
-
+    const [badData, setBadData] = useState('')
 
     const usernameHandler = (event) => {
         setUsername(event.target.value)
@@ -26,43 +26,46 @@ function Register(){
 
     const submitRegisterHandler = async (event) => {
         event.preventDefault();
+        let data = {
+            username: username,
+            email: email,
+            password: password
+        }
+        setBadData('')
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (email == ""){
+            setEmailError('Обязательое поле!')
+        }
+        else if (!emailPattern.test(email)){
+            setEmailError('Некорректный электронный адрес!')
+        }
+        else if (emailPattern.test(email)){
+            setEmailError('')
+        }
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+        if (password == ''){
+            setPassError('Обязательое поле!')
+        }
+        else if (!passwordPattern.test(password)){
+            setPassError('Пароль должен содержать строчные, заглавные символы и цифры, длина не менее 8 символов')
+        }
+        else if (passwordPattern.test(password)){
+            setPassError('')
+        }
+        const usernamePattern = /^[a-zA-Z0-9][a-zA-Z0-9._]{0,29}$/;
+        if (username == ''){
+            setUsernameError('Обязательое поле!')
+        }
+        else if (!usernamePattern.test(username)){
+            setUsernameError('Некорректное имя пользователя!')
+        }
+        else if (usernamePattern.test(username)){
+            setUsernameError('')
+        }
+        if (passError!='' || usernameError!='' || emailError!=''){
+            return
+        }
         try {
-            let data = {
-                username: username,
-                email: email,
-                password: password
-            }
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (email == ""){
-                setEmailError('Обязательое поле!')
-            }
-            else if (!emailPattern.test(email)){
-                setEmailError('Некорректный электронный адрес!')
-            }
-            else if (emailPattern.test(email)){
-                setEmailError('')
-            }
-            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-            if (password == ''){
-                setPassError('Обязательое поле!')
-            }
-            else if (!passwordPattern.test(password)){
-                setPassError('Пароль должен содержать строчные, заглавные символы и цифры, длина не менее 8 символов')
-            }
-            else if (passwordPattern.test(password)){
-                setPassError('')
-            }
-            const usernamePattern = /^[a-zA-Z0-9][a-zA-Z0-9._]{0,29}$/;
-            if (username == ''){
-                setUsernameError('Обязательое поле!')
-            }
-            else if (!usernamePattern.test(username)){
-                setUsernameError('Некорректное имя пользователя!')
-            }
-            else if (usernamePattern.test(username)){
-                setUsernameError('')
-            }
-
             console.log(data);
             const response = await axios.post("http://127.0.0.1:8000/auth/users/", data);
             let data_reg = {
@@ -72,6 +75,7 @@ function Register(){
             navigate('/login')  
         } catch (error) {
             console.log(error)
+            setBadData('Такой электронный адрес или имя пользователя уже зарегистрирован')
         }
         
     }
@@ -107,6 +111,7 @@ function Register(){
                 autoComplete="off"
             />
             {(passError!='') && <span className="errors">{passError}</span>}
+            {(badData!='') && <span className="error">{badData}</span>}
 
             <button onClick={submitRegisterHandler} className="btn_reg">Зарегистрироваться</button>
         </form>

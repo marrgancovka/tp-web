@@ -8,6 +8,9 @@ from django.core.exceptions import ObjectDoesNotExist
 class ProfileManager(models.Manager):
     def get_profiles_by_id(self, id_users):
         return Profiles.objects.filter(id__in = id_users)
+    def get_profile_by_id(self, id_user):
+        return Profiles.objects.filter(id = id_user)
+
 
 class Profiles(models.Model):
     objects = ProfileManager()

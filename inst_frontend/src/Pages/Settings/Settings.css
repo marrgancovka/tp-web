@@ -1,0 +1,101 @@
+.settings_page{
+    margin: 80px 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+}
+.avatar_settings{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid grey;
+    margin-bottom: 10px;
+}
+.img_settings{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.name_settings{
+    width: 400px;
+    border: none;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-bottom: 10px;
+    
+}
+.name_settings:focus{
+    outline: none;
+    box-shadow: 0 0 4px gray;
+}
+.btn_settings{
+    cursor: pointer;
+    padding: 8px 16px;
+    background-color: #ffffff;
+    color: white;
+    border: 1px solid gray;
+    border-radius: 10px;
+    color: black;
+}
+.btn_settings:active{
+    background-color: rgb(230, 230, 230);
+}
+.btn_exit{
+    border: none;
+    background-color: #ffffff;
+    color: black;
+    font-size: 16px;
+}
+.btn_delete{
+    border: none;
+    background-color: #ffffff;
+    color: red;
+    font-size: 16px;
+
+}
+.file-input-container {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+  }
+.file-input {
+    font-size: 18px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 222px;
+    height: 45px;
+  }
+
+  .upload-button {
+    cursor: pointer;
+    padding: 8px 16px;
+    background-color: #ffffff;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    border: 1px solid grey;
+    border-radius: 10px;
+  }
+  .upload-button:active{
+    background-color: rgb(231, 231, 231);
+  }
+
+  .img_container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .mg-30{
+    margin-bottom: 30px;
+  }
+  .save_ok{
+    font-size: 18px;
+    margin-top: -20px;
+}

@@ -26,7 +26,7 @@
 .container_info{
     flex: 1 1 auto;
     display: flex;
-    margin-left:  25%;
+    margin-left:  15%;
     margin-right: 3%;
     justify-content: space-between;
 }
@@ -51,6 +51,7 @@
     border-radius: 14px;
     padding: 1% 2%;
     font-size: 18px;
+    margin-left: 10%;
 } 
 .notSub{
     background-color: white;
@@ -83,4 +84,12 @@
 .qwery:focus{
     border: solid 1px rgb(209, 209, 209);
     border-radius: 15px;
+}
+.settings{
+    background-color: white;
+    color: black;
+    font-size: 18px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 3px 10px;
 }

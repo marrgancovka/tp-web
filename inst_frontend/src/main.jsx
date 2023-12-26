@@ -11,6 +11,7 @@ import PageSearch from './Pages/Search/Search';
 import PageMyProfile from './Pages/Profile/MyProfile';
 import { createBrowserRouter, RouterProvider, createHashRouter, Router } from 'react-router-dom'
 import PageNewMoment from './Pages/NewMoment/NewMoment';
+import PageSettings from './Pages/Settings/Settings';
 
 
 const router = createBrowserRouter([
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: '/new_moment',
     element: <PageNewMoment/>
+  },
+  {
+    path: '/settings',
+    element: <PageSettings/>
   },
 ])
 
