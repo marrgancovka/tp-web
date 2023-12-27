@@ -113,7 +113,7 @@ const PageSettings = () => {
         <div className="settings_page">
             <div className="img_container mg-30">
             <div className="avatar_settings">
-                {!isPreview && <img src={"http://127.0.0.1:5173/api/media/avatars/" + avatar} alt="" className="img_settings"/>}
+                {!isPreview && <img src={"http://127.0.0.1:5173/media/avatars/" + avatar} alt="" className="img_settings"/>}
                 {isPreview && <img src={preview} alt="" className="img_settings"/>}
             </div>
             <div class="file-input-container">
