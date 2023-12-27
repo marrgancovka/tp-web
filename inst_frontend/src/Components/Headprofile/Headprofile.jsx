@@ -22,17 +22,17 @@ const Headprofile = (props) => {
         try{
             console.log(location.state)
             console.log(props.id, '------------------------')
-            const resp_count = fetch(`http://localhost:8000/subscriptions/count/${location.state.profile}`)
+            const resp_count = fetch(`http://localhost:5173/api/subscriptions/count/${location.state.profile}`)
                 .then((response) => response.json())
                 .then((jsonData) => {setCount(jsonData)
                 console.log(jsonData)})
-            const resp_me = fetch(`http://localhost:8000/profile/me/${location.state.profile}/`)
+            const resp_me = fetch(`http://localhost:5173/api/profile/me/${location.state.profile}/`)
                     .then((response)=>response.json())
                     .then((jsonData)=>{setUser(jsonData)
                         console.log(jsonData)
                         console.log(user)
                     })
-            const resp_sub = fetch(`http://localhost:8000/subscriptions/${location.state.me}/${location.state.profile}/`)
+            const resp_sub = fetch(`http://localhost:5173/api/subscriptions/${location.state.me}/${location.state.profile}/`)
                     .then((response)=>response.json())
                     .then((jsonData)=>{setIs_sub(jsonData['is_sub']); console.log(jsonData['is_sub'])})
         }catch(error){
@@ -45,7 +45,7 @@ const Headprofile = (props) => {
             author_id: location.state.profile,
             subscriber_id: location.state.me
         }
-        const response = await axios.post("http://127.0.0.1:8000/subscriptions/", data);
+        const response = await axios.post("http://127.0.0.1:5173/api/subscriptions/", data);
         setIs_sub(!is_sub)
         if (is_sub){
         setCount({moments_count: count.moments_count, subscribers_count: count.subscribers_count-1, subscriptions_count: count.subscriptions_count})
@@ -79,7 +79,7 @@ const Headprofile = (props) => {
         <div>
         <div className='header'>
             <div className="avatar">
-                <img src={`http://127.0.0.1:8000${user?.avatar}`} alt='' className='ava_image'/>
+                <img src={`http://127.0.0.1:5173${user?.avatar}`} alt='' className='ava_image'/>
                 
             </div>
             <div className="profile_username">

@@ -11,7 +11,7 @@ const ModalWindow = (props) => {
 
     useEffect (()=>{
         console.log(props, 'props')
-        const resp_count = fetch(`http://localhost:8000/subscriptions/${location.state.profile}/?subs=${props.subs}`)
+        const resp_count = fetch(`http://localhost:5173/api/subscriptions/${location.state.profile}/?subs=${props.subs}`)
                 .then((response) => response.json())
                 .then((jsonData) => {setProfiles(jsonData)
                 console.log(jsonData)})

@@ -33,7 +33,7 @@ const NewMoment = (props) => {
             setError('Загрузите фотографию')
             return
         }
-        const response = await axios.post("http://127.0.0.1:8000/moments/", data, {headers: {"Content-Type": "multipart/form-data"}});        
+        const response = await axios.post("http://127.0.0.1:5173/api/moments/", data, {headers: {"Content-Type": "multipart/form-data"}});        
         navigate('/feed', {state: location.state})
         
     }

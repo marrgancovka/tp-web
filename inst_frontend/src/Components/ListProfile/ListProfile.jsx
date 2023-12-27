@@ -21,12 +21,12 @@ const ListProfile = (props) => {
             author_id: location.state.profile,
             subscriber_id: location.state.me
         }
-        const response = await axios.post("http://127.0.0.1:8000/subscriptions/", data);
+        const response = await axios.post("http://127.0.0.1:5173/api/subscriptions/", data);
         setIs_sub(!is_sub)
     }
 
     useEffect(()=>{
-        const resp_sub = fetch(`http://localhost:8000/subscriptions/${location.state.me}/${props.item.id}/`)
+        const resp_sub = fetch(`http://localhost:5173/api/subscriptions/${location.state.me}/${props.item.id}/`)
                     .then((response)=>response.json())
                     .then((jsonData)=>{setIs_sub(jsonData['is_sub']); console.log(jsonData['is_sub'])})
     })

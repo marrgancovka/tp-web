@@ -46,18 +46,18 @@ function Login(props){
     }
 
     try {
-        const response = await axios.post("http://127.0.0.1:8000/auth/token/login", data);
+        const response = await axios.post("http://127.0.0.1:5173/api/auth/token/login", data);
         const token = response.data['auth_token']
         console.log('API Response:', token);
         sessionStorage.setItem('token', JSON.stringify(token));
         const headers = {
             'Authorization': `token ${token}`
         }
-        const response1 = await axios.get("http://127.0.0.1:8000/auth/users/me", {headers: headers});
+        const response1 = await axios.get("http://127.0.0.1:5173/api/auth/users/me/", {headers: headers});
         console.log(response1.data)
         const id = response1.data['id']
         console.log(id)
-        const response2 = await axios.get(`http://localhost:8000/profile/me/${id}/?user=true`)
+        const response2 = await axios.get(`http://localhost:5173/api/profile/me/${id}/?user=true`)
         console.log(response2.data)
         const id_profile = response2.data['id']
         navigate('/feed', {state: {me: id_profile}})

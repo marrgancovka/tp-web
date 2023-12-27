@@ -13,11 +13,11 @@ const Grid = (props) => {
         console.log(props.id, '------------------------grid')
         
         try{
-                const response = fetch(`http://localhost:8000/moments/${location.state.profile}`)
+                const response = fetch(`http://localhost:5173/api/moments/${location.state.profile}`)
                 .then((response) => response.json())
                 .then((jsonData) => {setMoments(jsonData)
                 console.log(jsonData)
-                console.log(`http://localhost:8000/moments/${location.state.profile}`)})
+                console.log(`http://localhost:5173/api/moments/${location.state.profile}`)})
                 .catch((error) => console.error('Error fetching data:', error));
             
             

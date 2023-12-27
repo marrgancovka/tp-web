@@ -30,7 +30,7 @@ const Feed = (props) => {
     const getData = () => {
       try{
         setLoading(true)
-        const resp_moments = fetch(`http://localhost:8000/moments/${location.state.me}/?feed=true&offset=${page}&count=${count}`)
+        const resp_moments = fetch(`http://localhost:5173/api/moments/${location.state.me}/?feed=true&offset=${page}&count=${count}`)
             .then((response) => response.json())
             .then((jsonData) => {
                 if (!jsonData.length) return setLoading(true);

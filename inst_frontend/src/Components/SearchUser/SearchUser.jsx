@@ -19,7 +19,7 @@ const SearchUser = (props) => {
             return
         }
         console.log(search)
-        const response = await axios.get(`http://127.0.0.1:8000/profile/?search=${search}`);
+        const response = await axios.get(`http://127.0.0.1:5173/api/profile/?search=${search}`);
         console.log(response.data)
         if (!response.data.length || response.status===404){
             setNotFound(true)

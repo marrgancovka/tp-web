@@ -8,5 +8,18 @@ export default defineConfig({
     watch: {
       usePolling: true,
     }
-  }
+  },
+  
+  build: {
+    // Вы можете настроить цель сборки (для более старых браузеров):
+    target: 'es2015',
+
+    // Вы также можете настроить имя выходного файла для сборки
+    outDir: 'dist',
+
+
+
+    // Включите сжатие файлов
+    sourcemap: false,
+  },
 })

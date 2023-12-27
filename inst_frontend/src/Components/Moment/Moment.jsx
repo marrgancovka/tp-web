@@ -26,7 +26,7 @@ const Moment = (props) => {
             "author_id": location.state.me,
             "moment_id": props.item.id
         }
-        const response = await axios.post("http://127.0.0.1:8000/moments/like/", data);
+        const response = await axios.post("http://127.0.0.1:5173/api/moments/like/", data);
         if (response.data['is_delete']){
             set_count_likes(count_likes-1)
             set_is_like(false)

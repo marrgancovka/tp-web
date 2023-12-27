@@ -19,7 +19,7 @@ const PageSettings = () => {
 
 
     const get_data = async () => {
-        const response = await axios.get(`http://localhost:8000/profile/me/${location.state.me}/`)
+        const response = await axios.get(`http://localhost:5173/api/profile/me/${location.state.me}/`)
         setAvatar(response.data.avatar.substring(15, response.data.avatar.lenght))
         setPreview(response.data.avatar.substring(14, response.data.avatar.lenght))
         setUserinfo(response.data.user_info)
@@ -86,7 +86,7 @@ const PageSettings = () => {
                 avatar: avatar,
                 user_info: userinfo
             }
-            await axios.put(`http://localhost:8000/profile/${location.state.me}/`, data, {headers: {"Content-Type": "multipart/form-data"}})
+            await axios.put(`http://localhost:5173/api/profile/${location.state.me}/`, data, {headers: {"Content-Type": "multipart/form-data"}})
             setSave(true)
         } catch (error) {
             setSave(false)
@@ -113,7 +113,7 @@ const PageSettings = () => {
         <div className="settings_page">
             <div className="img_container mg-30">
             <div className="avatar_settings">
-                {!isPreview && <img src={"http://127.0.0.1:8000/media/avatars/" + avatar} alt="" className="img_settings"/>}
+                {!isPreview && <img src={"http://127.0.0.1:5173/api/media/avatars/" + avatar} alt="" className="img_settings"/>}
                 {isPreview && <img src={preview} alt="" className="img_settings"/>}
             </div>
             <div class="file-input-container">

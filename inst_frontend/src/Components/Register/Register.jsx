@@ -67,11 +67,11 @@ function Register(){
         }
         try {
             console.log(data);
-            const response = await axios.post("http://127.0.0.1:8000/auth/users/", data);
+            const response = await axios.post("http://127.0.0.1:5173/api/auth/users/", data);
             let data_reg = {
                 "id_user": response.data['id']
             }
-            await axios.post(`http://127.0.0.1:8000/profile/register/`, data_reg)
+            await axios.post(`http://127.0.0.1:5173/api/profile/register/`, data_reg)
             navigate('/login')  
         } catch (error) {
             console.log(error)
